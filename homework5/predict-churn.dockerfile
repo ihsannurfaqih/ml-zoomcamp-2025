@@ -1,14 +1,16 @@
 FROM agrigorev/zoomcamp-model:2025
 
-# WORKDIR /code
+WORKDIR /code
 
-# # ENV PATH="/code/.venv/bin:$PATH"
+ENV PATH="/code/.venv/bin:$PATH"
 
-# COPY "pyproject.toml" "uv.lock" ".python-version" ./
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# RUN uv sync --locked
+COPY "pyproject.toml" "uv.lock" ".python-version" ./
 
-# COPY "src/main.py" "model/pipeline_v1.bin" ./
+RUN uv sync --locked
+
+COPY "src/predict.py" ./
 
 EXPOSE 9696
 
